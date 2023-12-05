@@ -1,19 +1,36 @@
 // DetailScreen.js
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // You may need to install this library
+import Icon from 'react-native-vector-icons/FontAwesome';
+import MyContext from "./MyContext"; // You may need to install this library
 
 const Details = ({ route }) => {
-  const { restaurant } = route.params;
+  const { restaurant, restaurantData, setRestaurantData} = route.params;
   const navigation = useNavigation();
 
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(restaurant.rating);
   const [comment, setComment] = useState('');
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
   };
+
+
+
+  // const {restaurantData, setRestaurantData, num, setNum}=useContext(MyContext)
+  // function postComment(comment){
+  //   restaurant.comment=comment
+  //   restaurantData.map(rest=>{
+  //     setRestaurantData({
+  //       ...restaurantData,
+  //       restaurant
+  //     })
+  //   })
+  // }
+
+
+
 
   const handleActionPress = (action) => {
     switch (action) {
@@ -23,7 +40,7 @@ const Details = ({ route }) => {
         break;
       case 'Edit Post':
         // Navigate to the EditRestaurant screen
-        navigation.navigate('EditRestaurant', { restaurant });
+        navigation.navigate('EditRestaurant', { restaurant, restaurantData, setRestaurantData });
         break;
       case 'Share Post':
         // Implement Share Post logic
@@ -38,6 +55,22 @@ const Details = ({ route }) => {
     }
   };
 
+  function displayRatings(num){
+    let items=[]
+    for (let i=1;i<=num;i++){
+      items.push(
+          <Icon
+              name="star"
+              size={30}
+              color="#FFD700"
+              // onPress={() => handleRatingChange(3)}
+          />
+      )
+    }
+    return items;
+  }
+
+
   return (
     <ImageBackground
       source={require('./assets/background.jpeg')}
@@ -45,38 +78,39 @@ const Details = ({ route }) => {
     >
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Restaurant 1</Text>
+          <Text style={styles.headerText}>{restaurant.name}</Text>
         </View>
 
         <Text style={styles.sectionTitle}>Address</Text>
-        <Text style={styles.address}>{"64 main street"}</Text>
+        <Text style={styles.address}>{restaurant.address}</Text>
 
         <Text style={styles.sectionTitle}>Description</Text>
         <Text style={styles.description}>{restaurant.description}</Text>
 
         <Text style={styles.sectionTitle}>Phone</Text>
-        <Text style={styles.phone}>{'413-234-0000'}</Text>
+        <Text style={styles.phone}>{restaurant.phone}</Text>
 
         <Text style={styles.sectionTitle}>Tags</Text>
+        <Text style={styles.tag}>{restaurant.tags}</Text>
         {/* Add tags if available in your data model */}
 
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Ratings</Text>
           <View style={styles.ratingContainer}>
-            <Icon
-              name="star"
-              size={30}
-              color="#FFD700"
-              onPress={() => handleRatingChange(1)}
-            />
+
+            {displayRatings(rating)}
             {/* Add more stars/icons for additional rating levels */}
           </View>
         </View>
 
         <TextInput
+            defaultValue={restaurant.comment}
           style={styles.commentInput}
           placeholder="Add your comment..."
-          onChangeText={(text) => setComment(text)}
+          onChangeText={(text) => {
+            setComment(text)
+            // postComment(text)
+          }}
           multiline
         />
 
@@ -137,6 +171,10 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   phone: {
+    fontSize: 16,
+    marginTop: 8,
+  },
+  tag:{
     fontSize: 16,
     marginTop: 8,
   },

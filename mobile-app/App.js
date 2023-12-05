@@ -13,8 +13,12 @@ import About from './About';
 
 const Stack = createStackNavigator();
 
+// const MyContext=React.createContext({})
+
+
 const App = () => {
   return (
+      // <MyContext.Provider value={}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen" headerMode="false">
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
@@ -28,6 +32,7 @@ const App = () => {
 
       </Stack.Navigator>
     </NavigationContainer>
+      // </MyContext.Provider>
   );
 };
 

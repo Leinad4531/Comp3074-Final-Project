@@ -1,23 +1,71 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from "@react-navigation/native";
 
-const EditRestaurant = () => {
-  const [address, setAddress] = useState('');
-  const [description, setDescription] = useState('');
-  const [phone, setPhone] = useState('');
-  const [tags, setTags] = useState('');
-  const [ratings, setRatings] = useState(0);
+const EditRestaurant = ({ route }) => {
+  const navigation=useNavigation();
+  const {restaurantData, restaurant, setRestaurantData}=route.params
+
+
+
+  const [name, setName]=useState(restaurant.name)
+  const [address, setAddress] = useState(restaurant.address);
+  const [description, setDescription] = useState(restaurant.description);
+  const [phone, setPhone] = useState(restaurant.phone);
+  const [tags, setTags] = useState(restaurant.tags);
+  const [ratings, setRatings] = useState(restaurant.rating);
+
+  function updateItem(itemName, updatedData){
+    const updatedList = restaurantData.map(item => {
+      if (item.name === itemName) {
+        // Update the specific item with spread operator
+        return { ...item, ...updatedData };
+        // Alternatively, for a shallow update, you could do:
+        // return { ...item, value: updatedData.value };
+      }
+      return item;
+    });
+
+    // Update the state with the new list
+    setRestaurantData(updatedList);
+  }
+
+  const deleteItemByName = (nameToDelete) => {
+    const updatedList = restaurantData.filter(item => item.name !== nameToDelete);
+    setRestaurantData(updatedList);
+  };
+
 
   const SaveRestaurant = () => {
     // Implement logic to create a post with the entered data
     // You can use the state variables (name, address, description, phone, tags, ratings) here
-    console.log('Creating Post:', { name, address, description, phone, tags, ratings, publish });
+    console.log('Editting Post:', { name, address, description, phone, tags, ratings });
+    try {
+      updateItem(restaurant.name, {
+        'name': name,
+        'description': description,
+        'address': address,
+        'phone': phone,
+        'rating': ratings,
+        'tags':tags
+      })
+    }catch (e) {
+      console.log(e)
+    }
+    navigation.navigate('RestaurantList')
   };
   const DeleteRestaurant = () => {
     // Implement logic to create a post with the entered data
     // You can use the state variables (name, address, description, phone, tags, ratings) here
-    console.log('Creating Post:', { name, address, description, phone, tags, ratings, publish });
+    console.log('deleting Post:', { name, address, description, phone, tags, ratings });
+    try {
+      deleteItemByName(restaurant.name)
+    }
+    catch (e){
+      console.log(e)
+    }
+    navigation.navigate('RestaurantList')
   };
 
   return (
@@ -26,7 +74,7 @@ const EditRestaurant = () => {
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
-      <Text style={styles.mainText}>Edit Restaurant1</Text>
+      <Text style={styles.mainText}>Edit {restaurant.name}</Text>
 
         <Text style={styles.label}>Address:</Text>
         <TextInput
@@ -114,7 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingHorizontal: 16,
     marginTop: 8,
-    color: '#fff',
+    color: '#000000',
     backgroundColor:'white'
   },
   mainText: {
@@ -141,7 +189,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  },
+  }
 });
 
 export default EditRestaurant;

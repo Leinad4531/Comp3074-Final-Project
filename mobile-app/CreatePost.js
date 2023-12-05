@@ -2,20 +2,48 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from "@react-navigation/native";
 
-const CreatePost = () => {
+const CreatePost = ({route}) => {
+
+  const navigation=useNavigation()
+
+  const {restaurantData, setRestaurantData}=route.params
+
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
   const [phone, setPhone] = useState('');
   const [tags, setTags] = useState('');
   const [ratings, setRatings] = useState(0);
-  const [publish, setPublish] = useState(false);
+  // const [publish, setPublish] = useState(false);
+
+
+  const addItem = (newItemData) => {
+    const updatedList = [...restaurantData, newItemData];
+    setRestaurantData(updatedList);
+  };
+
 
   const handleCreatePost = () => {
     // Implement logic to create a post with the entered data
     // You can use the state variables (name, address, description, phone, tags, ratings) here
-    console.log('Creating Post:', { name, address, description, phone, tags, ratings, publish });
+    console.log('Creating Post:', { name, address, description, phone, tags, ratings });
+    const newRestaurant={
+      'name':name,
+      'description':description,
+      'address':address,
+      'phone':phone,
+      'rating':ratings,
+      'tags':tags
+    }
+    try{
+      addItem(newRestaurant)
+
+    }catch (e) {
+      console.log(e)
+    }
+    navigation.navigate('RestaurantList')
   };
 
   return (
@@ -83,13 +111,13 @@ const CreatePost = () => {
           ))}
         </View>
 
-        <Text style={styles.label}>Publish:</Text>
-        <Switch
-          value={publish}
-          onValueChange={(value) => setPublish(value)}
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={publish ? '#f5dd4b' : '#f4f3f4'}
-        />
+        {/*<Text style={styles.label}>Publish:</Text>*/}
+        {/*<Switch*/}
+        {/*  value={publish}*/}
+        {/*  onValueChange={(value) => setPublish(value)}*/}
+        {/*  trackColor={{ false: '#767577', true: '#81b0ff' }}*/}
+        {/*  thumbColor={publish ? '#f5dd4b' : '#f4f3f4'}*/}
+        {/*/>*/}
 
         <TouchableOpacity style={styles.button} onPress={handleCreatePost}>
           <Text style={styles.buttonText}>Create Post</Text>
@@ -124,7 +152,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingHorizontal: 16,
     marginTop: 8,
-    color: '#fff',
+    color: 'black',
     backgroundColor:'white'
   },
   mainText: {
