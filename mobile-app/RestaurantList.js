@@ -1,91 +1,55 @@
-import React, {useState} from 'react';
-import { View, Text, ImageBackground, TextInput, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ImageBackground, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native';
-import MyContext from "./MyContext";
-import Details from './Details';
 
-
-
-// const MyContext=React.createContext({})
-// const [restaurantData, setRestaurantData]=useState([{name:'Restaurant1', description: 'Authentic restaurant'}])
-
-
-
-
-// const restaurantData = [
-//   { name: 'Restaurant 1', description: 'Authentic flavors, welcoming atmosphere.' },
-//   { name: 'Restaurant 2', description: 'Culinary excellence, intimate dining.' },
-//   { name: 'Restaurant 3', description: 'Local ingredients, farm-to-table concept.' },
-//   { name: 'Restaurant 4', description: 'Eclectic flavors, vibrant atmosphere.' },
-//   { name: 'Restaurant 5', description: 'Contemporary menu, elegant surroundings.' },
-//   { name: 'Restaurant 6', description: 'Classic dishes, rustic charm.' },
-//   { name: 'Restaurant 7', description: 'Fusion cuisine, trendy urban setting.' },
-//   { name: 'Restaurant 8', description: 'Bold flavors, stylish dining experience.' },
-//   { name: 'Restaurant 9', description: 'Savor gourmet delights, cozy ambiance.' },
-//
-// ];
-
-// let restaurantData=[
-//   {name:'Restaurant 1', description: 'Authentic restaurant', address:'64 Main Street', phone:'413-234-0000', rating:1, comment:''},
-//   { name: 'Restaurant 2', description: 'Culinary excellence, intimate dining.', address:'64 Main Street', phone:'413-234-0000', rating:1, comment:'' },
-//   { name: 'Restaurant 3', description: 'Local ingredients, farm-to-table concept.', address:'64 Main Street', phone:'413-234-0000', rating:1, comment:'' },
-//   { name: 'Restaurant 4', description: 'Eclectic flavors, vibrant atmosphere.', address:'64 Main Street', phone:'413-234-0000', rating:1, comment:'' },
-//   { name: 'Restaurant 5', description: 'Contemporary menu, elegant surroundings.', address:'64 Main Street', phone:'413-234-0000', rating:1, comment:'' },
-//   { name: 'Restaurant 6', description: 'Classic dishes, rustic charm.', address:'64 Main Street', phone:'413-234-0000', rating:1, comment:'' },
-//   { name: 'Restaurant 7', description: 'Fusion cuisine, trendy urban setting.' , address:'64 Main Street', phone:'413-234-0000', rating:1, comment:''}
-// ]
 const RestaurantList = () => {
-
-  // const {restaurantData}=route.params
-  const [restaurantData, setRestaurantData]=useState([
-    {name:'Restaurant 1', description: 'Authentic restaurant', address:'64 Main Street', phone:'413-234-0000', rating:1, tags:'', comment:''},
+  const [restaurantData, setRestaurantData] = useState([
+    { name: 'Restaurant 1', description: 'Authentic restaurant', address: '64 Main Street', phone: '413-234-0000', rating: 1, tags: 'tag1, tag2', comment: '' },
     { name: 'Restaurant 2', description: 'Culinary excellence, intimate dining.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
     { name: 'Restaurant 3', description: 'Local ingredients, farm-to-table concept.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
-    { name: 'Restaurant 4', description: 'Eclectic flavors, vibrant atmosphere.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
-    { name: 'Restaurant 5', description: 'Contemporary menu, elegant surroundings.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
-    { name: 'Restaurant 6', description: 'Classic dishes, rustic charm.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
-    { name: 'Restaurant 7', description: 'Fusion cuisine, trendy urban setting.' , address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:''}
-
-  ])
-
-
-
+ ]);
+  const [searchText, setSearchText] = useState('');
 
   const navigation = useNavigation();
- 
+
+  const filteredRestaurants = restaurantData.filter((restaurant) => {
+    const nameMatch = restaurant.name.toLowerCase().includes(searchText.toLowerCase());
+    const tagsMatch = restaurant.tags.toLowerCase().includes(searchText.toLowerCase());
+    return nameMatch || tagsMatch;
+  });
+
   return (
     <ImageBackground
       source={require('./assets/background.jpeg')}
       style={styles.backgroundImage}
     >
-        <View style={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.mainText}>All Restaurants</Text>
         <View style={styles.searchContainer}>
           <Icon name="search" size={20} color="#fff" style={styles.searchIcon} />
           <TextInput
             style={styles.searchBar}
-            placeholder="Search for restaurants"
+            placeholder="Search for restaurants by name or tags"
             placeholderTextColor="#fff"
+            value={searchText}
+            onChangeText={(text) => setSearchText(text)}
           />
         </View>
 
-          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('CreatePost', {restaurantData, setRestaurantData})}>
-            <Text style={styles.buttonText}>Create Post</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreatePost', { restaurantData, setRestaurantData })}>
+          <Text style={styles.buttonText}>Create Post</Text>
+        </TouchableOpacity>
 
-
-        {restaurantData.map((restaurant) => (
+        {filteredRestaurants.map((restaurant) => (
           <TouchableOpacity
-            key={restaurant.name}  // Use a unique key, in this case, the restaurant name
-            onPress={() => navigation.navigate('Details', {restaurant, restaurantData, setRestaurantData})}
+            key={restaurant.name}
+            onPress={() => navigation.navigate('Details', { restaurant, restaurantData, setRestaurantData })}
             style={styles.restaurantContainer}
           >
             <Text style={styles.mainText}>{restaurant.name}</Text>
             <Text style={styles.descriptionText}>{restaurant.description}</Text>
           </TouchableOpacity>
-          
         ))}
       </View>
     </ImageBackground>
@@ -142,7 +106,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  }
+  },
+  restaurantContainer: {
+    marginBottom: 16,
+  },
 });
 
 export default RestaurantList;

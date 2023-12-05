@@ -1,4 +1,3 @@
-// DetailScreen.js
 import React, {useContext, useState} from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';

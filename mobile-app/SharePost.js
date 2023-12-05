@@ -1,16 +1,23 @@
-// SharePost.js
 import React from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, Text, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming FontAwesome is used
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SharePost = () => {
   const navigation = useNavigation();
 
   const handleBackToDetails = () => {
-    // Navigate to the DetailScreen
-    // navigation.navigate('Details');
     navigation.goBack();
+  };
+
+  const shareOnFacebook = () => {
+    const facebookUrl = 'https://www.facebook.com/sharer/sharer.php?u=your-restaurant-website&quote=Check%20out%20this%20awesome%20restaurant!';
+    Linking.openURL(facebookUrl);
+  };
+
+  const shareOnTwitter = () => {
+    const twitterUrl = 'https://twitter.com/intent/tweet?url=your-restaurant-website&text=Check%20out%20this%20awesome%20restaurant!';
+    Linking.openURL(twitterUrl);
   };
 
   return (
@@ -26,10 +33,10 @@ const SharePost = () => {
 
         {/* Icons for Facebook and Twitter */}
         <View style={styles.iconContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={shareOnFacebook}>
             <Icon name="facebook" size={100} color="#3b5998" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={shareOnTwitter}>
             <Icon name="twitter" size={100} color="#1da1f2" style={styles.twitterIcon} />
           </TouchableOpacity>
         </View>
@@ -55,7 +62,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -78,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     marginBottom: 16,
-    color: '#fff', // Text color
+    color: '#fff',
   },
   backButton: {
     backgroundColor: '#3498db',
