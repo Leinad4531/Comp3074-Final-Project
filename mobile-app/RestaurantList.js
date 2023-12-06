@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const RestaurantList = () => {
   const [restaurantData, setRestaurantData] = useState([
-    { name: 'Restaurant 1', description: 'Authentic restaurant', address: '64 Main Street', phone: '413-234-0000', rating: 1, tags: 'tag1, tag2', comment: '' },
+    { name: 'Restaurant 1', description: 'Authentic restaurant', address: '64 Main Street', phone: '413-234-0000', rating: 1, tags: 'tag1 tag2', comment: 'This restauarant was one of the best!' },
     { name: 'Restaurant 2', description: 'Culinary excellence, intimate dining.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
     { name: 'Restaurant 3', description: 'Local ingredients, farm-to-table concept.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
  ]);

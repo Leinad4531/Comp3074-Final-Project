@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +14,32 @@ const Details = ({ route }) => {
   const handleRatingChange = (newRating) => {
     setRating(newRating);
   };
+
+  function updateItem(itemName, updatedData){
+    const updatedList = restaurantData.map(item => {
+      if (item.name === itemName) {
+        // Update the specific item with spread operator
+        return { ...item, ...updatedData };
+        // Alternatively, for a shallow update, you could do:
+        // return { ...item, value: updatedData.value };
+      }
+      return item;
+    });
+
+    // Update the state with the new list
+    setRestaurantData(updatedList);
+  }
+
+
+  useEffect(() => {
+    console.log("COMMENT: "+comment)
+    // item updates using useEffect rather than a button
+    updateItem(restaurant.name, {'comment':comment})
+
+
+  }, [comment]);
+
+
 
 
 
@@ -111,7 +137,6 @@ const Details = ({ route }) => {
           placeholder="Add your comment..."
           onChangeText={(text) => {
             setComment(text)
-            // postComment(text)
           }}
           multiline
         />
@@ -197,6 +222,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 8,
     paddingHorizontal: 8,
+    fontSize:13,
+    color:"#424242",
   },
   actionButton: {
     backgroundColor: '#3c8a5e',
