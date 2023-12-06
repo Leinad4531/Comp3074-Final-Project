@@ -105,8 +105,6 @@ const styles = StyleSheet.create({
   },
   directionsButton: {
     position: 'absolute',
-    // top: 16,
-    // right: 16,
     bottom: 100,
     backgroundColor: '#2ecc71',
     paddingVertical: 10,

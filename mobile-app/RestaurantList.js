@@ -25,7 +25,7 @@ const RestaurantList = () => {
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
-        <Text style={styles.mainText}>All Restaurants</Text>
+        <Text style={styles.mainText}>Restaurant App</Text>
         <View style={styles.searchContainer}>
           <Icon name="search" size={20} color="#fff" style={styles.searchIcon} />
           <TextInput
