@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from "@react-navigation/native";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const CreatePost = ({route}) => {
 
@@ -52,7 +53,7 @@ const CreatePost = ({route}) => {
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
-      <Text style={styles.mainText}>Create Post</Text>
+      <Text style={styles.mainText}>Create Restaurant</Text>
 
         <Text style={styles.label}>Name:</Text>
         <TextInput

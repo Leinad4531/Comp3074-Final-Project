@@ -38,7 +38,7 @@ const RestaurantList = () => {
         </View>
 
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreatePost', { restaurantData, setRestaurantData })}>
-          <Text style={styles.buttonText}>Create Post</Text>
+          <Text style={styles.buttonText}>Create Restaurant</Text>
         </TouchableOpacity>
 
         {filteredRestaurants.map((restaurant) => (

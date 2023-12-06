@@ -36,6 +36,10 @@ const EditRestaurant = ({ route }) => {
     setRestaurantData(updatedList);
   };
 
+  const cancel = () =>{
+    navigation.navigate('RestaurantList')
+  }
+
 
   const SaveRestaurant = () => {
     // Implement logic to create a post with the entered data
@@ -132,6 +136,9 @@ const EditRestaurant = ({ route }) => {
         <TouchableOpacity style={styles.button} onPress={DeleteRestaurant}>
           <Text style={styles.buttonText}>Delete</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.cancel} onPress={cancel}>
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
@@ -184,6 +191,14 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginTop: 20,
     alignItems: 'center',
+  },
+  cancel:{
+    backgroundColor: '#d12a17',
+    padding: 10,
+    borderRadius: 50,
+    marginTop: 20,
+    alignItems: 'center',
+    width: 100,
   },
   buttonText: {
     color: '#fff',

@@ -77,6 +77,9 @@ const Details = ({ route }) => {
     >
       <View style={styles.container}>
         <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon style={styles.backArrow}name="arrow-left" size={30} color="white" />
+          </TouchableOpacity>
           <Text style={styles.headerText}>{restaurant.name}</Text>
         </View>
 
@@ -117,13 +120,13 @@ const Details = ({ route }) => {
           <Text style={styles.actionButtonText}>Get Direction</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton} onPress={() => handleActionPress('Edit Post')}>
-          <Text style={styles.actionButtonText}>Edit Post</Text>
+          <Text style={styles.actionButtonText}>Edit Restaurant</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton} onPress={() => handleActionPress('Share Post')}>
-          <Text style={styles.actionButtonText}>Share Post</Text>
+          <Text style={styles.actionButtonText}>Share Restaurant</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton} onPress={() => handleActionPress('About')}>
-          <Text style={styles.actionButtonText}>About Post</Text>
+          <Text style={styles.actionButtonText}>About</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -144,6 +147,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     marginTop: 16,
+  },
+  backArrow:{
+    marginRight: 350,
   },
   headerText: {
     fontSize: 35,

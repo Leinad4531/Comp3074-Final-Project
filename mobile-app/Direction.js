@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, ImageBackground, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, ImageBackground, StyleSheet, Text, TouchableOpacity, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import MapView, { Marker, Polyline } from 'react-native-maps'; // Assuming you have installed and linked the react-native-maps library
+import MapView, { Marker, Polyline } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 const Direction = ({ route }) => {
@@ -21,7 +21,10 @@ const Direction = ({ route }) => {
       const geoLocation = await Location.geocodeAsync(address);
       if (geoLocation && geoLocation.length > 0) {
         setLocation(geoLocation[0]);
-        setRouteCoordinates([location, { latitude: geoLocation[0].latitude, longitude: geoLocation[0].longitude }]);
+        setRouteCoordinates([
+          { latitude: location.latitude, longitude: location.longitude },
+          { latitude: geoLocation[0].latitude, longitude: geoLocation[0].longitude },
+        ]);
       }
     } catch (error) {
       console.error('Error fetching location: ', error);
@@ -35,6 +38,12 @@ const Direction = ({ route }) => {
   const handleBackToDetails = () => {
     // Navigate back to the DetailScreen
     navigation.goBack();
+  };
+
+  const handleGetDirections = () => {
+    const { latitude, longitude } = location;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+    Linking.openURL(url);
   };
 
   return (
@@ -60,10 +69,15 @@ const Direction = ({ route }) => {
           {/* Polyline to show the route */}
           <Polyline
             coordinates={routeCoordinates}
-            strokeColor="#3498db" // Set a color that resembles roads on the map
-            strokeWidth={10} // Increase the thickness as needed
+            strokeColor="#3498db"
+            strokeWidth={10}
           />
         </MapView>
+
+        {/* Button to get directions */}
+        <TouchableOpacity style={styles.directionsButton} onPress={handleGetDirections}>
+          <Text style={styles.buttonText}>Get Directions</Text>
+        </TouchableOpacity>
 
         {/* Button to go back to Details.js */}
         <TouchableOpacity style={styles.backButton} onPress={handleBackToDetails}>
@@ -88,6 +102,16 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
     width: '100%',
+  },
+  directionsButton: {
+    position: 'absolute',
+    // top: 16,
+    // right: 16,
+    bottom: 100,
+    backgroundColor: '#2ecc71',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
   },
   backButton: {
     position: 'absolute',
