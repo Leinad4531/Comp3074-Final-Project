@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ImageBackground, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import {View, Text, ImageBackground, TextInput, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,7 +8,8 @@ const RestaurantList = () => {
     { name: 'Restaurant 1', description: 'Authentic restaurant', address: '64 Main Street', phone: '413-234-0000', rating: 1, tags: 'tag1 tag2', comment: 'This restauarant was one of the best!' },
     { name: 'Restaurant 2', description: 'Culinary excellence, intimate dining.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
     { name: 'Restaurant 3', description: 'Local ingredients, farm-to-table concept.', address:'64 Main Street', phone:'413-234-0000', rating:1,tags:'', comment:'' },
- ]);
+
+  ]);
   const [searchText, setSearchText] = useState('');
 
   const navigation = useNavigation();
@@ -25,6 +26,7 @@ const RestaurantList = () => {
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
+        <ScrollView>
         <Text style={styles.mainText}>Restaurant App</Text>
         <View style={styles.searchContainer}>
           <Icon name="search" size={20} color="#fff" style={styles.searchIcon} />
@@ -51,6 +53,7 @@ const RestaurantList = () => {
             <Text style={styles.descriptionText}>{restaurant.description}</Text>
           </TouchableOpacity>
         ))}
+        </ScrollView>
       </View>
     </ImageBackground>
   );

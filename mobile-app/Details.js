@@ -1,8 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  ImageBackground,
+  SafeAreaView,
+  ScrollView
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MyContext from "./MyContext"; // You may need to install this library
 
 const Details = ({ route }) => {
   const { restaurant, restaurantData, setRestaurantData} = route.params;
@@ -38,21 +46,6 @@ const Details = ({ route }) => {
 
 
   }, [comment]);
-
-
-
-
-
-  // const {restaurantData, setRestaurantData, num, setNum}=useContext(MyContext)
-  // function postComment(comment){
-  //   restaurant.comment=comment
-  //   restaurantData.map(rest=>{
-  //     setRestaurantData({
-  //       ...restaurantData,
-  //       restaurant
-  //     })
-  //   })
-  // }
 
 
 
@@ -97,11 +90,13 @@ const Details = ({ route }) => {
 
 
   return (
-    <ImageBackground
+
+      <ImageBackground
       source={require('./assets/background.jpeg')}
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
+        <ScrollView>
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icon style={styles.backArrow}name="arrow-left" size={30} color="white" />
@@ -153,8 +148,10 @@ const Details = ({ route }) => {
         <TouchableOpacity style={styles.actionButton} onPress={() => handleActionPress('About')}>
           <Text style={styles.actionButtonText}>About</Text>
         </TouchableOpacity>
+      </ScrollView>
       </View>
-    </ImageBackground>
+</ImageBackground>
+
   );
 };
 
