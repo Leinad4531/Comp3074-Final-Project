@@ -26,22 +26,17 @@ const Details = ({ route }) => {
   function updateItem(itemName, updatedData){
     const updatedList = restaurantData.map(item => {
       if (item.name === itemName) {
-        // Update the specific item with spread operator
         return { ...item, ...updatedData };
-        // Alternatively, for a shallow update, you could do:
-        // return { ...item, value: updatedData.value };
       }
       return item;
     });
 
-    // Update the state with the new list
     setRestaurantData(updatedList);
   }
 
 
   useEffect(() => {
     console.log("COMMENT: "+comment)
-    // item updates using useEffect rather than a button
     updateItem(restaurant.name, {'comment':comment})
 
 

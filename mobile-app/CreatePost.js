@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from "@react-navigation/native";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const CreatePost = ({route}) => {
 
@@ -111,14 +110,6 @@ const CreatePost = ({route}) => {
             </TouchableOpacity>
           ))}
         </View>
-
-        {/*<Text style={styles.label}>Publish:</Text>*/}
-        {/*<Switch*/}
-        {/*  value={publish}*/}
-        {/*  onValueChange={(value) => setPublish(value)}*/}
-        {/*  trackColor={{ false: '#767577', true: '#81b0ff' }}*/}
-        {/*  thumbColor={publish ? '#f5dd4b' : '#f4f3f4'}*/}
-        {/*/>*/}
 
         <TouchableOpacity style={styles.button} onPress={handleCreatePost}>
           <Text style={styles.buttonText}>Create Post</Text>
